@@ -1,5 +1,5 @@
 -module(erlangZ21).
--export([start/0, send_collect/3, get_serial_num/1, drive_train/5]).
+-export([start/0, send_collect/3, get_serial_num/1, drive_train/5, get_loco_info/2, get_loco_info/3]).
 
 udp_details() ->
 	{8799, {192,168,0,111}, 21105}.
