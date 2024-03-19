@@ -1,5 +1,6 @@
 -module(erlangZ21).
--export([start/0, send_collect/3, get_serial_num/1, drive_train/5, get_loco_info/2, get_loco_info/3]).
+-export([start/0, send_collect/3, get_serial_num/1]).
+-export([drive_train/5, get_loco_info/2, get_loco_info/3]).
 
 udp_details() ->
 	{8799, {192,168,0,111}, 21105}.
@@ -22,8 +23,8 @@ send_collect({Local_port, Dest_IP, Dest_port}, Message, Response) ->
 
 get_serial_num(UDP_details) ->
 	Message = <<4,0,16,0>>, % get serial number
-	Package = send_collect(UDP_details, Message, true),
-	Serial = binary:decode_unsigned(binary:part(Package, {byte_size(Package), -4}), little),
+	<<_:4/binary, Rest/binary>> = send_collect(UDP_details, Message, true),
+	Serial = binary:decode_unsigned(Rest, little),
 	io:fwrite("Serial number: ~p~n", [Serial]).
 
 calc_prim_funcs(Number) ->
@@ -112,7 +113,7 @@ drive_train(UDP_details, Loco_address, Direction, Speed, Brake_state) ->
 
 start() ->
 	Address = 3,
-% 	get_serial_num(UDP_details),
-% 	send_collect(udp_details(), Message).
-	drive_train(udp_details(), Address, "forward", 30, "none"),
+% 	get_serial_num(udp_details()),
+% 	send_collect(udp_details(), Message),
+% 	drive_train(udp_details(), Address, "forward", 30, "none"),
 	get_loco_info(udp_details(), Address).
