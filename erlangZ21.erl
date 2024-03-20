@@ -111,9 +111,26 @@ drive_train(UDP_details, Loco_address, Direction, Speed, Brake_state) ->
 	Message = <<10,0,64,0,228,19,0,Loco_address,Locomotion,XOR>>,
 	send_collect(UDP_details, Message, false).
 
+set_loco_function(UDP_details, Address, Function, State) ->
+	% Function 0, 1, 2, 3, 4: F0, F4, F3, F2, F1
+	% Function 5 and onwards: extended functions
+	% State "on", "off" or "switch"
+	if
+		State == "off" ->
+			DB3 = Function band -193;
+		State == "on" ->
+			DB3 = Function band -129 bor 64;
+		true ->
+			DB3 = Function bor 128 band -65
+	end,
+	XOR = 228 bxor 248 bxor 0 bxor Address bxor DB3,
+	Message = <<10,0,64,0,228,248,0,Address,DB3,XOR>>,
+	send_collect(UDP_details, Message, false).
+
 start() ->
 	Address = 3,
 % 	get_serial_num(udp_details()),
 % 	send_collect(udp_details(), Message),
 % 	drive_train(udp_details(), Address, "forward", 30, "none"),
+% 	set_loco_function(udp_details(), Address, 0, "switch"),
 	get_loco_info(udp_details(), Address).
