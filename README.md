@@ -6,6 +6,16 @@ At the moment there is support for: driving, getting locomotive information, act
 
 ## Build
 ```bash
-$ cd erlangZ21
+$ cd erlangZ21/
 $ rebar3 compile
+```
+## Use
+In terminal:
+```bash
+$ cd erlangZ21/
+$ rebar3 shell
+```
+In erlang shell:
+```erlang
+1> erlangZ21:get_serial_num(erlangZ21:udp_details()).
 ```
