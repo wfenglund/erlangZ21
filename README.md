@@ -18,4 +18,5 @@ $ rebar3 shell
 In erlang shell:
 ```erlang
 1> erlangZ21:get_serial_num(erlangZ21:udp_details()).
+Serial number: XXXXXX
 ```
