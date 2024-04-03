@@ -7,7 +7,7 @@ At the moment there is support for: driving, getting locomotive information, act
 ## Build
 In the terminal:
 ```bash
-$ git clone https://github.com/wfenglund/ercli
+$ git clone https://github.com/wfenglund/erlangZ21
 $ cd erlangZ21/
 $ rebar3 compile
 ```
