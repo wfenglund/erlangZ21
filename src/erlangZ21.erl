@@ -3,13 +3,19 @@
 -export([udp_details/0, drive_train/5, get_loco_info/2]).
 -export([get_loco_info/3, set_loco_function/4]).
 
+%% udp_details() -> {local_port, {z21_ip}, z21_port}.
+%%  Return details required for udp communication with Z21.
 udp_details() ->
 	{8799, {192,168,0,111}, 21105}.
 
+%% open_socket(Port_number, Active_state) -> Socket.
+%%  Open a socket for a given port number, active or not.
 open_socket(Port_number, Active_state) ->
 	{ok, Socket} = gen_udp:open(Port_number, [binary, {active, Active_state}]),
 	Socket.
 
+%% send_collect(UDP_details, Message, Response) -> Package | empty.
+%%  Send a message and receive response if specified.
 send_collect({Local_port, Dest_IP, Dest_port}, Message, Response) ->
 	Socket = open_socket(Local_port, false),
 	gen_udp:send(Socket, Dest_IP, Dest_port, Message),
